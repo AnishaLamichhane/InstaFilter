@@ -11,12 +11,12 @@ import UIKit
 class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var intensity: UISlider!
-    
-    var currentImage: UIImage!
-    
+    @IBOutlet var changeButton: UIButton!
+    @IBOutlet var radius: UISlider!
     
     var currentFilter : CIFilter!
     var context: CIContext!
+    var currentImage: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CIPixellate", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CISepiaTone", style: .default, handler: setFilter))
-        ac.addAction(UIAlertAction(title: "CITwirlDistorition", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CITwirlDistortion", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "CIVignette", style: .default, handler: setFilter))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -69,19 +69,28 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         guard let actionTitle = action.title else{ return }
         
         currentFilter = CIFilter(name: actionTitle)
+        changeButton.setTitle(actionTitle, for: .normal)
         
-        let beginImage = CIImage(image: currentImage)
+        guard let beginImage = CIImage(image: currentImage) else {return }
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
         applyProcessing()
     }
     
     @IBAction func save(_ sender: Any) {
-        guard let image = imageView.image else { return }
+        guard let image = imageView.image else {
+            let ac = UIAlertController(title: "NO Image Found", message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+            present(ac, animated: true)
+            return
+        }
         
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_: didFinishSavingWithError:contextInfo:)), nil)
     }
     
     @IBAction func intensityChanged(_ sender: Any) {
+        applyProcessing()
+    }
+    @IBAction func radiusChanged(_ sender: Any) {
         applyProcessing()
     }
     
@@ -90,10 +99,18 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         
         if inputKeys.contains(kCIInputIntensityKey) {
             currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+            intensity.isEnabled = true
+        }
+        else {
+            
         }
         
         if inputKeys.contains(kCIInputRadiusKey) {
             currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey)
+            radius.isEnabled = true
+        } else {
+            radius.isEnabled = false
+            radius.value = 0
         }
      
         if inputKeys.contains(kCIInputScaleKey) {
