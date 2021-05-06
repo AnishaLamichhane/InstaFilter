@@ -1,5 +1,5 @@
 # InstaFilter
-This project contains my personal solution to the project13 Challenges of HackingWithSwift.
+This project is the sample app that helps you to add the cool instagram filters to your pictures.
 
 #Challenges:
 1.  Try making the Save button show an error if there was no image in the image view.
