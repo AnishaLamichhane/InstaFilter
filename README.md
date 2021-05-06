@@ -2,7 +2,7 @@
 This project is the sample app that helps you to add the cool instagram filters to your pictures.
 
 
-https://user-images.githubusercontent.com/52813885/117280204-15397280-ae82-11eb-8e3a-68c91c2e65a9.mov
+![project13](https://user-images.githubusercontent.com/52813885/117280955-dc4dcd80-ae82-11eb-8a3c-3a6364390c7f.gif)
 
 
 
