@@ -1,5 +1,5 @@
 # InstaFilter
-This project is the sample app that helps you to add the cool instagram filters to your pictures.
+It is the sample app that helps you to add the cool instagram filters to your pictures.
 
 
 ![project13](https://user-images.githubusercontent.com/52813885/117280955-dc4dcd80-ae82-11eb-8a3c-3a6364390c7f.gif)
